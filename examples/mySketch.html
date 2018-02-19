@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>MySketch</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen, projection" />
+    <link href='http://fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="../js/verlet-1.0.0.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript" src="../site/js/common.js"></script>
+    <h1>
+        My Sketch
+    </h1>
+    <h4>Author</h4>
+    <a href="https://github.com/juicehansson" target="_blank">Juicehansson</a>
+
+    <center>
+        This is me trying out using the verlet.js library.
+        <br> It is (and I quote):
+        <br> "a light-weight physics library to create a bouncy and interactive 2D world
+        <br> that is made up of particles and constraints."
+        <br>
+        <a href="https://www.sitepoint.com/an-introduction-to-verlet-js/" target="_blank">Tutorial I used </a>
+    </center>
+
+    <canvas width="800" height="300" id="canvas"></canvas>
+
+    <script type="text/javascript">
+        var world;
+
+        function initializeWorld() {
+            world = new VerletJS(800, 300, document.getElementById("canvas"));
+            //calling the verlet constructor
+
+            //---First shape---
+            var wheel = world.tire(new Vec2(80, 80), 60, 30, 1, 1);
+            //first parameter = coordinates of the origin of the shape
+            //second = radius (middle to all other points)
+            //third = number of segments (number of triangular segments - not sides)
+            //last = stiffness of the constraints
+            var pin = wheel.pin(0);
+
+            //---Line---
+            var segment = world.lineSegments([new Vec2(600, 100), new Vec2(630, 150), new Vec2(650, 200)], 1);
+            //array function that contains position of particles that form a line (add more in array to make more pinpoints)
+            var pin = segment.pin(0);
+            // creating a variable called segment made so that I could pin the different pinpoints on the canvas
+
+            //---Cloth---
+            world.cloth(new Vec2(300, 100), 150, 200, 16, 3, 1);
+            //first = coordinates of origin
+            //second and third = width and height of cloth
+            //four = the number of segments in each row and column of cloth
+            //five = if non-zero, specifies which particles should be pinned
+            //six/last = stiffness of constraints between particles
+
+            //----More complex shapes -----
+
+            //---TRIANGLE---
+            var triangle = new world.Composite(); //composite has two arrays - particles and constraints
+            //to add a particle or constraint you need to 'push'
+            //particles
+            triangle.particles.push(new Particle(new Vec2(500, 100)));
+            triangle.particles.push(new Particle(new Vec2(500, 200)));
+            triangle.particles.push(new Particle(new Vec2(400, 100)));
+            // one extra - playing around
+            triangle.particles.push(new Particle(new Vec2(400, 150)));
+
+
+            // distance constraints
+            triangle.constraints.push(
+                new DistanceConstraint(triangle.particles[0], triangle.particles[1], 2)
+            );
+
+            triangle.constraints.push(
+                new DistanceConstraint(triangle.particles[0], triangle.particles[2], 2)
+            );
+
+            triangle.constraints.push(
+                new DistanceConstraint(triangle.particles[1], triangle.particles[2], 2)
+            );
+
+            //extra line - playing around
+            triangle.constraints.push(
+                new DistanceConstraint(triangle.particles[0], triangle.particles[3], 2)
+            );
+
+            //add the shape to your world
+            world.composites.push(triangle);
+            triangle.pin(3, new Vec2(500, 100));
+            //first number = which corner is pinned
+            //the Vec2 = where the pin happens on the canvas 
+            //---END OF TRIANGLE---
+
+            //---GRAVITY---
+            world.gravity = new Vec2(0.0, 0.5);
+            //changing the gravity to go down and to the right
+            // the higher the number the stronger the gravity pulls
+            //first number controls gravity to the right
+            //second number controls gravity downwards
+
+        }
+
+        var fps = 32;
+
+        function renderWorld() {
+            world.frame(16); //performs the physics calculations
+            world.draw(); //draws the particles and constrains
+            setTimeout(renderWorld, 1000 / fps); //how often if calls the rendering
+        }
+
+        //calling the initializing and the rendering on "load"
+        window.addEventListener("load", function () {
+            initializeWorld();
+            renderWorld();
+        })
+    </script>
+
+    <div id="footer">
+        Copyright 2013 Sub Protocol and other contributors.
+        <br/>
+        <a href="http://subprotocol.com/">http://subprotocol.com/</a>
+    </div>
+</body>
