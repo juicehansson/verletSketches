@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>MySketch</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./../../css/style.css" type="text/css" media="screen, projection" />
+    <link href='http://fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="./../../js/verlet-1.0.0.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript" src="./../../site/js/common.js"></script>
+    <h1>
+        My Sketch
+    </h1>
+    <h4>Author</h4>
+    <a href="https://github.com/juicehansson" target="_blank">Juicehansson</a>
+
+    <center>
+        This is me trying out using the verlet.js library.
+        <br> It is (and I quote):
+        <br> "a light-weight physics library to create a bouncy and interactive 2D world
+        <br> that is made up of particles and constraints."
+        <br>
+        <a href="https://www.sitepoint.com/an-introduction-to-verlet-js/" target="_blank">Tutorial I used </a>
+    </center>
+
+    <canvas width="800" height="300" id="canvas"></canvas>
+
+    <script type="text/javascript">
+        var world;
+
+        function initializeWorld() {
+            world = new VerletJS(800, 300, document.getElementById("canvas"));
+            //calling the verlet constructor
+
+            var wheel = world.tire(new Vec2(0, 0), 60, 3, 1, 1);
+            var pin = wheel.pin(3);
+
+            var tailX = 400;
+            var tailY = 100;
+
+            //---Line---
+            var tail = world.lineSegments([
+                new Vec2(tailX, tailY),
+                new Vec2(410, 100),
+                new Vec2(430, 100),
+                new Vec2(450, 100)
+            ], 1);
+            //array function that contains position of particles that form a line (add more in array to make more pinpoints)
+            var pin = tail.pin(0);
+            // creating a variable called segment made so that I could pin the different pinpoints on the canvas
+
+            //---Event listener---
+            //cheat - if mouse down on the point where tail is - do something
+            //I want it to check where the tail is dropped - by checking the tail's coordinates
+            //updating the tails coordinates as I move/release it
+            //comparing the position of the tail-point and where the "goal"
+
+            document.getElementById('canvas').addEventListener('mousedown', evt => {
+                var x = evt.clientX;
+                var y = evt.clientY;
+
+                var DownCoords = "Pressed at: X-cord: " + x + ", Y-cord: " + y;
+                console.log(DownCoords)
+
+                if (x > 485 && x < 500 && y > 135 && y < 155) {
+                    console.log("pressed right on the spot")
+                    document.getElementById("canvas").style.background = "lightblue";
+
+                    document.getElementById('canvas').addEventListener('mouseup', evt => {
+                        var x = evt.clientX;
+                        var y = evt.clientY;
+
+                        var UpCoords = "Released at: X-cord: " + x + ", Y-cord: " + y;
+                        console.log("released")
+                        console.log(UpCoords)
+
+                        if (x > 0 && x < 150 && y > 0 && y < 100) {
+                            console.log("released right on the spot")
+                            document.getElementById("canvas").style.background = "lightgreen";
+                        }
+                    });
+                }
+
+            });
+
+
+
+            //---GRAVITY---
+            world.gravity = new Vec2(0.0, 0.5);
+            //changing the gravity to go down and to the right
+            // the higher the number the stronger the gravity pulls
+            //first number controls gravity to the right
+            //second number controls gravity downwards
+
+        }
+
+        var fps = 32;
+
+        function renderWorld() {
+            world.frame(16); //performs the physics calculations
+            world.draw(); //draws the particles and constrains
+            setTimeout(renderWorld, 1000 / fps); //how often if calls the rendering
+        }
+
+        //calling the initializing and the rendering on "load"
+        window.addEventListener("load", function () {
+            initializeWorld();
+            renderWorld();
+        })
+    </script>
+
+    <div id="footer">
+        Copyright 2013 Sub Protocol and other contributors.
+        <br/>
+        <a href="http://subprotocol.com/">http://subprotocol.com/</a>
+    </div>
+</body>
