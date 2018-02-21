@@ -69,7 +69,7 @@ DistanceConstraint.prototype.draw = function(ctx) {
 	ctx.beginPath();
 	ctx.moveTo(this.a.pos.x, this.a.pos.y);
 	ctx.lineTo(this.b.pos.x, this.b.pos.y);
-	ctx.strokeStyle = "#d8dde2";
+	ctx.strokeStyle = "#605246";
 	ctx.stroke();
 }
 
@@ -386,9 +386,9 @@ VerletJS.prototype.cloth = function(origin, width, height, segments, pinMod, sti
 		}
 	}
 	
-	for (x=0;x<segments;++x) {
-		if (x%pinMod == 0)
-		composite.pin(x);
+	for (y=0;y<segments;++y) {
+		if (y%pinMod == 0)
+		composite.pin(y);
 	}
 	
 	this.composites.push(composite);
@@ -471,7 +471,7 @@ function Particle(pos) {
 Particle.prototype.draw = function(ctx) {
 	ctx.beginPath();
 	ctx.arc(this.pos.x, this.pos.y, 2, 0, 2*Math.PI);
-	ctx.fillStyle = "#2dad8f";
+	ctx.fillStyle = "#999591";
 	ctx.fill();
 }
 

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>MySketch</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./../../css/style.css" type="text/css" media="screen, projection" />
+    <link href='http://fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="./../../js/verlet-1.0.0.js"></script>
+    <style type="text/css" media="screen">
+        canvas, img { display:block; margin:1em auto; border:1px solid black; }
+        canvas { background:url("./../../images/bike.gif")
+         }
+        #fortuneWheel, img { display:block; margin:1em auto; border:1px solid black; }
+        #fortuneWheel { background:url("./../../images/circus.jpg")
+         }
+        #flag, img { display:block; margin:1em auto; border:1px solid black; }
+        #flag { background:url("./../../images/flag.jpg")
+         }
+      </style>
+</head>
+
+<body>
+    <script type="text/javascript" src="./../../site/js/common.js"></script>
+    <h1>
+       Annas sketch 1
+    </h1>
+    <h4>Author</h4>
+    <a href="https://github.com/Annabjoerk" target="_blank">Anna Björk</a>
+
+    <center>
+        Simple sketch of a possible way of using the verlet shapes. 
+        <br>The wheels are moveable and you can make them spin.
+        <br>This shows a simple way to make something a bit more interactive.  
+        <br>An idea to take this sketch further could be
+        <br>having to drag the wheels onto the bike to make the bike move etc.
+        <a href="https://www.sitepoint.com/an-introduction-to-verlet-js/" target="_blank">Tutorial I used </a>
+    </center>
+
+    <canvas width="500" height="491" id="canvas"></canvas>
+
+    <script type="text/javascript">
+        var world;
+
+        function initializeWorld() {
+            world = new VerletJS(500, 492, document.getElementById("canvas"));
+            //calling the verlet constructor
+
+            //Front wheel
+            var wheel = world.tire(new Vec2(132, 373), 80, 30, 1, 1);
+            //first parameter = coordinates of the origin of the shape
+            //second = radius (middle to all other points)
+            //third = number of segments (number of triangular segments - not sides)
+            //last = stiffness of the constraints
+            var pin = wheel.pin(30);
+
+            //Back wheel
+            var wheel = world.tire(new Vec2(407, 372), 80, 30, 1, 1);
+            var pin = wheel.pin(30);
+
+
+            //---GRAVITY---
+            world.gravity = new Vec2(0.0, 0.5);
+            //changing the gravity to go down and to the right
+            // the higher the number the stronger the gravity pulls
+            //first number controls gravity to the right
+            //second number controls gravity downwards
+
+        }
+
+        var fps = 32;
+
+        function renderWorld() {
+            world.frame(16); //performs the physics calculations
+            world.draw(); //draws the particles and constrains
+            setTimeout(renderWorld, 1000 / fps); //how often if calls the rendering
+        }
+
+
+
+        //calling the initializing and the rendering on "load"
+        window.addEventListener("load", function () {
+            initializeWorld();
+            renderWorld();
+        })
+    </script>
+
+<h1>
+    Annas sketch 2
+ </h1>
+ 
+ <center>
+     Simple sketch of a possible way of using the verlet shapes. 
+     <br>The wheels are moveable and you can make them spin.
+     <br>This shows a simple way to make something a bit more interactive.  
+     <br>
+     <br>
+     <a href="https://www.sitepoint.com/an-introduction-to-verlet-js/" target="_blank">Tutorial I used </a>
+ </center>
+
+ <canvas id="fortuneWheel" width="792" height="1000" id="canvas"></canvas>
+
+ <script type="text/javascript">
+     var world;
+
+     function initializeWorld2() {
+         world2 = new VerletJS(792, 1000, document.getElementById("fortuneWheel"));
+         //calling the verlet constructor
+
+         //Front wheel
+         var fortunewheel = world2.tire(new Vec2(398, 477), 200, 25, 1, 1);
+         //first parameter = coordinates of the origin of the shape
+         //second = radius (middle to all other points)
+         //third = number of segments (number of triangular segments - not sides)
+         //last = stiffness of the constraints
+         var pin = fortunewheel.pin(25);
+
+
+         //---GRAVITY---
+         world2.gravity = new Vec2(0.0, 0.5);
+         //changing the gravity to go down and to the right
+         // the higher the number the stronger the gravity pulls
+         //first number controls gravity to the right
+         //second number controls gravity downwards
+
+     }
+
+     var fps = 32;
+
+     function renderWorld2() {
+         world2.frame(16); //performs the physics calculations
+         world2.draw(); //draws the particles and constrains
+         setTimeout(renderWorld2, 1000 / fps); //how often if calls the rendering
+     }
+
+
+
+     //calling the initializing and the rendering on "load"
+     window.addEventListener("load", function () {
+         initializeWorld2();
+         renderWorld2();
+     })
+ </script>
+
+<h1>
+    Annas sketch 3
+ </h1>
+ 
+ <center>
+         Simple sketch of a possible way of using the verlet shapes. 
+     <br>The wheels are moveable and you can make them spin.
+     <br>This shows a simple way to make something a bit more interactive.  
+     <br>
+     <br>
+     <a href="https://www.sitepoint.com/an-introduction-to-verlet-js/" target="_blank">Tutorial I used </a>
+ </center>
+
+<canvas id="flag" width="600" height="700" ></canvas>
+
+ <script type="text/javascript">
+     var world3;
+
+     function initializeWorld3() {
+         world3 = new VerletJS(792, 1000, document.getElementById("flag"));
+         //calling the verlet constructor
+
+         world3.cloth(new Vec2(290, 320), 150, 200, 16, 3, 1);
+       
+         world3.gravity = new Vec2(0.0, 0.5);
+         //changing the gravity to go down and to the right
+         // the higher the number the stronger the gravity pulls
+         //first number controls gravity to the right
+         //second number controls gravity downwards
+
+     }
+
+     var fps = 32;
+
+     function renderWorld3() {
+         world3.frame(16); //performs the physics calculations
+         world3.draw(); //draws the particles and constrains
+         setTimeout(renderWorld3, 1000 / fps); //how often if calls the rendering
+     }
+
+
+
+     //calling the initializing and the rendering on "load"
+     window.addEventListener("load", function () {
+         initializeWorld3();
+         renderWorld3();
+     })
+ </script>
+
+    <div id="footer">
+        Copyright 2013 Sub Protocol and other contributors.
+        <br/>
+        <a href="http://subprotocol.com/">http://subprotocol.com/</a>
+    </div>
+</body>
