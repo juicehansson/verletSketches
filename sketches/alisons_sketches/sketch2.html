@@ -60,6 +60,7 @@
         //var canvasCtx;
         var wheel = world.tire(new Vec2(450, 300), 100, 30, 1, 1);
         var pin = wheel.pin(30);
+        
         //initialising audio
         
         /*if (VerletJS.draggedEntity) {
@@ -88,12 +89,18 @@
     
         }
     var fps = 32; // the frame rate of the world
-    document.onmousemove = updatePage;
+    var _this = this;
+    VerletJS.onmousemove = updatePage;
+    this.canvas.onmousemove = function(e) {
+		var rect = _this.canvas.getBoundingClientRect();
+		_this.mouse.x = e.clientX - rect.left;
+		_this.mouse.y = e.clientY - rect.top;
+	};  
     function updatePage(e) {
         CurFlag = false;
 
-        CurX = (window.Event) ? e.pageX : event.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
-        CurY = (window.Event) ? e.pageY : event.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
+        CurX = (VerletJS.Event) ? e.pageX : event.clientX + (VerletJS.canvas.scrollLeft ? VerletJS.canvas.scrollLeft : document.body.scrollLeft);
+        CurY = (VerletJS.Event) ? e.pageY : event.clientY + (VerletJS.scrollTop ? VerletJS.canvas.scrollTop : document.body.scrollTop);
         //canvas.oscillator.start(0);
         oscillator.frequency.value = (CurX/WIDTH) * maxFreq;
         //oscillator.frequency.value = (CurY/HEIGHT) * maxFreq;
@@ -118,33 +125,62 @@
             
             
     });
+    /*this.canvas.onmousedown = function(e) {
+        _this.mouseDown = true;
+       
+		var nearest = _this.nearestEntity();
+		if (nearest) {
+            _this.draggedEntity = nearest;
+            oscillator.start(0);
+		}
+	};
+	
+	this.canvas.onmouseup = function(e) {
+		_this.mouseDown = false;
+		_this.draggedEntity = null;
+	};
+	
+	this.canvas.onmousemove = function(e) {
+		var rect = _this.canvas.getBoundingClientRect();
+		_this.mouse.x = e.clientX - rect.left;
+        _this.mouse.y = e.clientY - rect.top;
+        if ((_this.mouseDown && _this.draggedEntity), true) {
+            oscillator.detune.value = 200;
+        }
+	};  */
+
     canvas.addEventListener("mousemove", mousemove);
     canvas.addEventListener("mousedown", mousedown);
     canvas.addEventListener("mouseup", mouseup);
     
         function mousemove(e) {
-        //CurX = X - canvas.offsetLeft;
-        //CurY = e.layerY - canvas.offsetTop;
+        CurX = e.layerX - canvas.offsetLeft;
+        CurY = e.layerY - canvas.offsetTop;
 
         //for(i=0;i<world.tire.particles;i++) {
           //  dx = mouseX - world.tire.particles.x;
           //  dy = mouseY - world.tire.particles.y;
           //  dist = Math.sqrt((dx*dx) + (dy*dy));
             //if (world.particles = draggable && dist < world.tire.particles.r) {
-            if (mousedown && mousemove) {    
+            if ((mousedown && mousemove), true) {    
                 //oscillator.frequency.value = initialFreq;
                 //oscillator.gain.value = initialVol;
-                oscillator.detune.value = 200;
+               oscillator.detune.value = 200;
             }
         }
     //}
         function mousedown(e) {
-            oscillator.start(0);
+            //oscillator.connect();
+            oscillator.start();
+            //oscillator.stop();
         }   
         function mouseup(e) {
             oscillator.stop();
             oscillator.disconnect();
+            
+            //setTimeout(500);
             fortuneWheel.play();
+            //updatePage();
         }
         
         //if (wheel.draggedEntity()) {
