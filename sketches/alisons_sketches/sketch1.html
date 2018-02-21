@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Alison's sketch</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./../../css/style2.css" type="text/css" media="screen, projection" />
+    <link href='http://fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="./../../js/verlet-1.0.0.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript" src="./../../site/js/common.js"></script>
+    <h1>
+        A first sketch with verlet.js
+    </h1>
+    <h4>On github:</h4>
+    <a href="https://github.com/kruemel0611" target="_blank">kruemel0611</a>
+    
+    <div class="dropzone">
+        <div id="draggable" draggable="true" ondragstart="event.clientX.clientY"></div>
+       <canvas width="900" height="600" id="canvas"></canvas> 
+    </div>
+    
+    
+
+    <script>
+    
+    var world;
+     var audioContext = window.AudioContext || window.webkitAudioContext;
+        var audioCtx = new AudioContext();
+        var gainNode = audioCtx.createGain();
+        var oscillator = audioCtx.createOscillator();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+
+        var maxFreq = 3000;
+        var maxVol = 0.02;
+
+        var initialFreq = 500;
+        var initialVol = 0.02;
+
+        //oscillator.detune.value = 100;
+        //oscillator.start(0);
+
+        gainNode.gain.value = initialVol;
+        oscillator.frequency.value = initialFreq;
+        
+        var WIDTH = VerletJS.innerWidth;
+        var HEIGHT = VerletJS.innerHeight;
+        var CurX;
+        var CurY;
+    //initialising the newly created world
+    function initializeWorld() {
+        world = new VerletJS(900, 600, document.getElementById("canvas")); 
+        
+        //var dragged 
+        audioCtx = world;
+        //canvas.onmousedrag = oscillator.start(0);
+        var canvas = document.querySelector('.canvas');
+        //world.width = WIDTH;
+        //world.height = HEIGHT;
+        //world.onmousedrag = updatePage();
+
+        var canvasCtx; 
+       
+        //if (this.draggedEntity)
+        //this.draggedEntity.pos.mutableSet(this.mouse);
+        //oscillator.start(0);
+		
+        /*function verletDrag () {
+            if (KeyFlag == true) {
+                rX = CurX;
+                rY = CurY;
+            }
+            rC = Math.floor((gainNode.gain.Value/maxVol)*30);
+
+            for (i=1;i<=15;i=i+2) {
+                canvasCtx.beginDrag();
+                Math.floor(gainNode.gain.Value/maxVol)+Math.floor(oscillator.frequency.value/maxFreq);
+            }
+        }
+
+        */
+
+        //world.gravity = new Vec2(0.2, 0.2); 
+        //world.lineSegments([new Vec2(100,100), new Vec2(200,200)], 1);
+        
+        //creating a rectangle from four vector particles, and adding constraints to connect them
+        var rectangle = new world.Composite();
+        rectangle.particles.push(new Particle(new Vec2(100,100)));
+        rectangle.particles.push(new Particle(new Vec2(100,200)));
+        rectangle.particles.push(new Particle(new Vec2(200,300)));
+        rectangle.particles.push(new Particle(new Vec2(300,100)));
+        rectangle.constraints.push(
+            new DistanceConstraint(rectangle.particles[0], rectangle.particles[1],1)
+        );
+
+        rectangle.constraints.push(
+            new DistanceConstraint(rectangle.particles[0], rectangle.particles[2],1)
+        );
+
+        rectangle.constraints.push(
+            new DistanceConstraint(rectangle.particles[1], rectangle.particles[2],1)
+        );
+
+        rectangle.constraints.push(
+            new DistanceConstraint(rectangle.particles[2], rectangle.particles[3],1)
+        );
+
+        rectangle.constraints.push(
+            new DistanceConstraint(rectangle.particles[3], rectangle.particles[0],1)
+        );
+
+        //rectangle.constraints.push(
+            //new DistanceConstraint(rectangle.particles[1], rectangles.particles[3],2)
+        //);
+
+        world.composites.push(rectangle);
+
+        //pinning one point of the rectangle to the canvas
+        rectangle.pin(1, new Vec2(400,200));
+        var dragged = VerletJS.draggedEntity;
+        if (rectangle.particles == dragged) {
+            oscillator.start();
+        }
+
+        //creating a cloth
+        //world.cloth(new Vec2(100,300), 400, 600, 10, 3, 1);
+        //world.cloth(new Vec2(700,300), 400, 600, 10, 3, 1); //coordinates, height and width, number of segments/row+column, which particle is pinned, stiffness of the constraints
+        
+        //creating wheel
+        var wheel = world.tire(new Vec2(450, 300), 100, 30, 1, 1);
+            //first parameter = coordinates of the origin of the shape
+            //second = radius (middle to all other points)
+            //third = number of segments (number of triangular segments - not sides)
+            //last = stiffness of the constraints
+        var pin = wheel.pin(30);
+            //var pins = wheel.particles();
+        
+        if (VerletJS.draggedEntity) {
+            oscillator.frequency.value = initialFreq;
+           gainNode.gain.value = initialVol;
+            oscillator.start(0);
+            uodatePage();
+        }
+        //if (wheel.dragged) {
+           // oscillator.start(0);
+        //}
+        //document.addEventListener ("drag", function(event) {
+          //  console.log("wheel dragged");
+            //verletDrag();
+        //}, false);
+        //document.addEventListener("dragstart", function(event) {
+            //store a ref on the dragged element
+          //  dragged = event.target;
+           // verletDrag();
+            
+        //}, false);
+        //document.addEventListener("dragend", function(event) {
+          //  oscillator.stop(0);
+        //}, false);
+        //document.addEventListener("dragover", function(event) {
+          //  event.preventDefault();
+        //}, false);
+        //document.addEventListener("drop", function(event) {
+          //  event.preventDefault();
+            //if (event.target.className == "dropzone") {
+              // wheel.rotate;
+
+            //}
+        //}, false);
+
+    }
+    
+    var fps = 32; // the frame rate of the world
+
+    function updatePage(e) {
+            KeyFlag = false;
+
+            CurX = (canvas.Event) ? e.pageX : event.clientX //+ (canvas.canvasElement.scrollLeft ? canvas.canvasElement.scrollLeft : canvas.scrollLeft);
+            CurY = (canvas.Event) ? e.pageY : event.clientY //+ (canvas.canvasElement.scrollTop ? canvas.canvasElement.scrollTop : canvas.scrollTop);
+            oscillator.start();
+            oscillator.frequency.value = (CurX/WIDTH) * maxFreq;
+            oscillator.frequency.value = (CurY/HEIGHT) * maxFreq;
+            
+        }
+    //rendering the world
+    function renderWorld() {
+        world.frame(16);
+        world.draw();
+        setTimeout(renderWorld, 1000 / fps);
+    } 
+
+    window.addEventListener("load", function() {
+            initializeWorld();
+            renderWorld();
+    });
+
+    </script>
+    <div id="footer">
+            Copyright 2013 Sub Protocol and other contributors.
+            <br/><a href="http://subprotocol.com/">http://subprotocol.com/</a>
+        </div>
+</body>    

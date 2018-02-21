@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Alison's sketch</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./../../css/style2.css" type="text/css" media="screen, projection" />
+    <link href='http://fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="./../../js/verlet-1.0.0.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript" src="./../../site/js/common.js"></script>
+    <h1>
+        A first sketch with verlet.js
+    </h1>
+    <h4>On github:</h4>
+    <a href="https://github.com/kruemel0611" target="_blank">kruemel0611</a>
+    
+    
+    <canvas width="900" height="600" id="canvas"></canvas> 
+    
+    
+    
+
+    <script>
+    
+    var world;
+    var fortuneWheel = new Audio("prize-wheel.wav");
+
+    var audioContext = window.AudioContext || window.webkitAudioContext;
+        var audioCtx = new AudioContext();
+        var gainNode = audioCtx.createGain();
+        var oscillator = audioCtx.createOscillator();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        var WIDTH = VerletJS.width;
+        var HEIGHT = VerletJS.height;
+
+        var maxFreq = 3000;
+        var maxVol = 0.02;
+
+        var initialFreq = 500;
+        var initialVol = 0.02;
+
+        oscillator.detune.value = 100;
+
+        gainNode.gain.value = initialVol;
+        oscillator.frequency.value = initialFreq;
+        
+        
+        var CurX;
+        var CurY;
+
+    function initializeWorld() {
+        world = new VerletJS(900, 600, document.getElementById("canvas")); 
+        //audioCtx = world;
+        var canvas = document.querySelector('.canvas');
+        //var canvasCtx;
+        var wheel = world.tire(new Vec2(450, 300), 100, 30, 1, 1);
+        var pin = wheel.pin(30);
+        //initialising audio
+        
+        /*if (VerletJS.draggedEntity) {
+            oscillator.frequency.value = initialFreq;
+           gainNode.gain.value = initialVol;
+            oscillator.start(0);
+            updatePage();
+        }
+        /*var isMouseDown = false;
+
+        if (canvas.onmousedown && canvas.onmousemove) {
+            oscillator.start(0);
+
+        }
+        canvas.onmousedown = function () {
+        isMouseDown = true;
+        }
+        canvas.onmouseup = function () {
+        isMouseDown = false;
+        }
+        canvas.onmousemove = function() {
+        
+            oscillator.start(0);
+        
+        */
+    
+        }
+    var fps = 32; // the frame rate of the world
+    document.onmousemove = updatePage;
+    function updatePage(e) {
+        CurFlag = false;
+
+        CurX = (window.Event) ? e.pageX : event.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
+        CurY = (window.Event) ? e.pageY : event.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
+        //canvas.oscillator.start(0);
+        oscillator.frequency.value = (CurX/WIDTH) * maxFreq;
+        //oscillator.frequency.value = (CurY/HEIGHT) * maxFreq;
+        //gainNode.gain.value = (CurX/WIDTH) * maxVol;
+        gainNode.gain.value = (CurY/HEIGHT) * maxVol;
+        //canvas.addEventListener("dragstart", function() {
+            //oscillator.start(0);
+        
+    //})
+    }
+    //rendering the world
+    function renderWorld() {
+        world.frame(16);
+        world.draw();
+        setTimeout(renderWorld, 1000 / fps);
+    } 
+    window.addEventListener("load", function() {
+            initializeWorld();
+            renderWorld();
+            //mousemove();
+            
+            
+            
+    });
+    canvas.addEventListener("mousemove", mousemove);
+    canvas.addEventListener("mousedown", mousedown);
+    canvas.addEventListener("mouseup", mouseup);
+    
+        function mousemove(e) {
+        //CurX = X - canvas.offsetLeft;
+        //CurY = e.layerY - canvas.offsetTop;
+
+        //for(i=0;i<world.tire.particles;i++) {
+          //  dx = mouseX - world.tire.particles.x;
+          //  dy = mouseY - world.tire.particles.y;
+          //  dist = Math.sqrt((dx*dx) + (dy*dy));
+            //if (world.particles = draggable && dist < world.tire.particles.r) {
+            if (mousedown && mousemove) {    
+                //oscillator.frequency.value = initialFreq;
+                //oscillator.gain.value = initialVol;
+                oscillator.detune.value = 200;
+            }
+        }
+    //}
+        function mousedown(e) {
+            oscillator.start(0);
+        }   
+        function mouseup(e) {
+            oscillator.stop();
+            oscillator.disconnect();
+            fortuneWheel.play();
+        }
+        
+        //if (wheel.draggedEntity()) {
+          //  oscillator.start();
+        //}
+    //});
+
+    //canvas.addEventListener("dragstart", function( )
+    //if (wheel.dragstart) {
+        //oscillator.start();
+    
+
+    </script>
+    <div id="footer">
+            Copyright 2013 Sub Protocol and other contributors.
+            <br/><a href="http://subprotocol.com/">http://subprotocol.com/</a>
+    </div>
+</body>    
+
