@@ -41,50 +41,52 @@
         var CurY;
 
         function initializeWorld() {
-            world = new VerletJS(800, 300, document.getElementById("canvas"));
             //calling the verlet constructor
+            world = new VerletJS(800, 300, document.getElementById("canvas"));
 
-
-            world.cloth(new Vec2(300, 100), 80, 80, 16, 3, 1);
-
+            //creating somewhere to drag the pin, a visual goal
             var tri = world.tire(new Vec2(0, 0), 60, 3, 1, 1);
             var pin = tri.pin(3);
 
+            //---Line---
+
+            //find where the pinned line is
             var tailX = 400;
             var tailY = 100;
 
-            //---Line---
+            //array function that contains position of particles that form a line (add more in array to make more pinpoints)
             var tail = world.lineSegments([
                 new Vec2(tailX, tailY),
                 new Vec2(410, 100),
                 new Vec2(430, 100),
                 new Vec2(450, 100)
             ], 1);
-            //array function that contains position of particles that form a line (add more in array to make more pinpoints)
+
+            // creating a variable so that I could pin the different points on the canvas
             var pin = tail.pin(0);
-            // creating a variable called segment made so that I could pin the different pinpoints on the canvas
 
             //---Event listener---
-            //cheat - if mouse down on the point where tail is - do something
-            //I want it to check where the tail is dropped - by checking the tail's coordinates
-            //updating the tails coordinates as I move/release it
-            //comparing the position of the tail-point and where the "goal"
+            //on mouse down make background blue, on mouse up background is green
+            //the point was to create something in the likes of 'tail on the donkey'
+            //sense where you drag and drop a specific point and do something accordingly
 
+            //check if mousedown
             document.getElementById('canvas').addEventListener('mousedown', evt => {
                 var x = evt.clientX;
                 var y = evt.clientY;
-
                 var DownCoords = "Pressed at: X-cord: " + x + ", Y-cord: " + y;
+
                 console.log(DownCoords)
                 document.getElementById("canvas").style.background = "lightblue";
 
             });
 
+            //check if mouseup
             document.getElementById('canvas').addEventListener('mouseup', evt => {
                 var x = evt.clientX;
                 var y = evt.clientY;
-
                 var UpCoords = "Released at: X-cord: " + x + ", Y-cord: " + y;
+
                 console.log("released")
                 console.log(UpCoords);
                 document.getElementById("canvas").style.background = "lightgreen";
@@ -96,30 +98,19 @@
                 var y = event.gamma; // In degree in the range [-90,90]
                 var z = event.alpha; // In degree in the range [-90,90]
 
-                if (event.beta < 70 && event.alpha > 100) {
-                    //alpha goes from 0-300
+                if (event.beta < 70 && event.alpha > 100) { //gravity pulls to the right
                     console.log(event.alpha)
-                    world.gravity = new Vec2(0.1, 0.3);
-                } else if (event.beta < 70 && event.alpha < 100) {
-                    //alpha goes from 0-140
+                    world.gravity = new Vec2(0.1, 0.3); //first number controls pull right, second number controls pull down
+                } else if (event.beta < 70 && event.alpha < 100) { //gravity pulls to the left
                     console.log(event.alpha)
                     world.gravity = new Vec2(-0.1, 0.3);
                 } else {
-                    //---GRAVITY---
+                    //Gravity pulls downwards
                     world.gravity = new Vec2(0.0, 0.5);
                 }
-
             }
 
-
             window.addEventListener('deviceorientation', handleOrientation);
-
-
-            //changing the gravity to go down and to the right
-            // the higher the number the stronger the gravity pulls
-            //first number controls gravity to the right
-            //second number controls gravity downwards
-
         }
 
         var fps = 32;
