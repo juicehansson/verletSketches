@@ -53,6 +53,8 @@
         var CurX;
         var CurY;
 
+        var mic;
+
     function initializeWorld() {
         world = new VerletJS(900, 600, document.getElementById("canvas")); 
         //audioCtx = world;
@@ -60,7 +62,13 @@
         //var canvasCtx;
         var wheel = world.tire(new Vec2(450, 300), 100, 30, 1, 1);
         var pin = wheel.pin(30);
-        
+        // mic input
+        /*mic = new p5.AudioIn();
+        mic.start();
+
+        var vol = mic.getLevel();
+        var h = map(vol, 0, 1, HEIGHT, 0);
+        */
         //initialising audio
         
         /*if (VerletJS.draggedEntity) {
