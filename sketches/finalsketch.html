@@ -19,22 +19,15 @@
             background: url("")
         }
     </style>
-
 </head>
 
 <body>
     <script type="text/javascript" src="./../../site/js/common.js"></script>
     <h1>
-<<<<<<< HEAD:sketches/theBigOne/finalsketch.html
-     Final Demo
-=======
         Annas sketch 1
->>>>>>> ed449a253d270b99aa1113c02e2ab9ee3bf46e3c:sketches/finalsketch.html
     </h1>
-    <h4>Authors</h4>
+    <h4>Author</h4>
     <a href="https://github.com/Annabjoerk" target="_blank">Anna Björk</a>
-    <a href="https://github.com/juicehansson" target="_blank">Juicehansson</a>
-    <a href="https://github.com/kruemel0611" target="_blank">kruemel0611</a>
 
     <center>
         Final sketch
@@ -45,10 +38,11 @@
         <a href="https://www.sitepoint.com/an-introduction-to-verlet-js/" target="_blank">Tutorial I used </a>
     </center>
 
-    <canvas width="1200" height="1000" id="canvas"></canvas>
+    <canvas width="700" height="500" id="canvas"></canvas>
 
     <script type="text/javascript">
         var world;
+        
         var fortuneWheel = new Audio("prize-wheel.wav");
         var audioContext = window.AudioContext || window.webkitAudioContext;
         var audioCtx = new AudioContext();
@@ -75,50 +69,33 @@
         var CurX;
         var CurY;
 
+        
+        
+
         function initializeWorld() {
-            world = new VerletJS(1200, 1000, document.getElementById("canvas"));
+            world = new VerletJS(700, 500, document.getElementById("canvas"));
             //calling the verlet constructor
 
-            //Spinning wheel
-            var wheel = world.tire(new Vec2(550, 250), 190, 30, 1, 1);
+            //Front wheel
+            var wheel = world.tire(new Vec2(350, 250), 80, 30, 1, 1);
+
             var pin = wheel.pin(30);
 
-            //Flag1
-            world.cloth(new Vec2(150, 200), 150, 200, 16, 3, 1);
 
-            //Flag2
-            world.cloth(new Vec2(1050, 200), 150, 200, 16, 3, 1);
+            //Flag 1
+            world.cloth(new Vec2(100, 200), 150, 200, 16, 3, 1);
+
+            //Flag 2
+            world.cloth(new Vec2(600, 200), 150, 200, 16, 3, 1);
 
             //Rope
 
             var rope = world.lineSegments([
-                new Vec2(800, 100),
-                new Vec2(810, 100),
-                new Vec2(820, 100),
-                new Vec2(830, 100),
-                new Vec2(840, 100),
-                new Vec2(850, 100),
-                new Vec2(860, 100),
-                new Vec2(870, 100),
-                new Vec2(880, 100),
-                new Vec2(890, 100),
-                new Vec2(900, 100),
-                new Vec2(910, 100),
-                new Vec2(920, 100),
-                new Vec2(930, 100),
-                new Vec2(940, 100),
-                new Vec2(950, 100),
-                new Vec2(960, 100),
-                new Vec2(970, 100),
-                new Vec2(980, 100),
-                new Vec2(990, 100),
-                new Vec2(1000, 100),
-                new Vec2(1010, 100),
-                new Vec2(1020, 100),
-                new Vec2(1030, 100),
-                new Vec2(1040, 100),
+                new Vec2(450, 200),
+                new Vec2(460, 100),
+                new Vec2(470, 100),
+                new Vec2(480, 100)
             ], 1);
-           
             var pin = rope.pin(0);
 
             //---GRAVITY---
@@ -190,7 +167,7 @@
         window.addEventListener("load", function () {
             initializeWorld();
             renderWorld();
-        })
+        });
 
         canvas.addEventListener("mousemove", mousemove);
         canvas.addEventListener("mousedown", mousedown);
