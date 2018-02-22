@@ -25,16 +25,14 @@
 <body>
     <script type="text/javascript" src="./../../site/js/common.js"></script>
     <h1>
-<<<<<<< HEAD:sketches/theBigOne/finalsketch.html
-     Final Demo
-=======
-        Annas sketch 1
->>>>>>> ed449a253d270b99aa1113c02e2ab9ee3bf46e3c:sketches/finalsketch.html
+        Final Demo
     </h1>
     <h4>Authors</h4>
     <a href="https://github.com/Annabjoerk" target="_blank">Anna Björk</a>
     <a href="https://github.com/juicehansson" target="_blank">Juicehansson</a>
     <a href="https://github.com/kruemel0611" target="_blank">kruemel0611</a>
+    <br>
+    <a href="./../../index.html">Go back</a>
 
     <center>
         Final sketch
@@ -105,11 +103,11 @@
                 var y = event.gamma; // In degree in the range [-90,90]
                 var z = event.alpha; // In degree in the range [-90,90]
 
-                if (event.beta < 70 && event.alpha > 100) {
+                if (event.beta < 70 && event.alpha < 200) { //to the right on PC
                     //alpha goes from 0-300
                     console.log(event.alpha)
                     world.gravity = new Vec2(0.1, 0.3);
-                } else if (event.beta < 70 && event.alpha < 100) {
+                } else if (event.beta < 70 && event.alpha > 200) { //to the left on PC
                     //alpha goes from 0-140
                     console.log(event.alpha)
                     world.gravity = new Vec2(-0.1, 0.3);
