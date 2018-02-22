@@ -25,11 +25,8 @@
 <body>
     <script type="text/javascript" src="./../../site/js/common.js"></script>
     <h1>
-<<<<<<< HEAD:sketches/theBigOne/finalsketch.html
-     Final Demo
-=======
-        Annas sketch 1
->>>>>>> ed449a253d270b99aa1113c02e2ab9ee3bf46e3c:sketches/finalsketch.html
+        Final Demo
+        <!-- Annas sketch 1 -->
     </h1>
     <h4>Authors</h4>
     <a href="https://github.com/Annabjoerk" target="_blank">Anna Björk</a>
@@ -38,11 +35,11 @@
 
     <center>
         Final sketch
+        <!-- <br>
         <br>
         <br>
         <br>
-        <br>
-        <a href="https://www.sitepoint.com/an-introduction-to-verlet-js/" target="_blank">Tutorial I used </a>
+        <a href="https://www.sitepoint.com/an-introduction-to-verlet-js/" target="_blank">Tutorial I used </a> -->
     </center>
 
     <canvas width="1200" height="1000" id="canvas"></canvas>
@@ -118,7 +115,7 @@
                 new Vec2(1030, 100),
                 new Vec2(1040, 100),
             ], 1);
-           
+
             var pin = rope.pin(0);
 
             //---GRAVITY---
@@ -130,13 +127,13 @@
                 var y = event.gamma; // In degree in the range [-90,90]
                 var z = event.alpha; // In degree in the range [-90,90]
 
-                if (event.beta < 70 && event.alpha > 100) {
+                if (event.beta < 70 && event.alpha < 200) {
                     //alpha goes from 0-300
-                    //console.log(event.alpha)
+                    console.log(event.alpha)
                     world.gravity = new Vec2(0.1, 0.3);
-                } else if (event.beta < 70 && event.alpha < 100) {
+                } else if (event.beta < 70 && event.alpha > 200) {
                     //alpha goes from 0-140
-                    //console.log(event.alpha)
+                    console.log(event.alpha)
                     world.gravity = new Vec2(-0.1, 0.3);
                 } else {
                     //---GRAVITY---
@@ -203,20 +200,19 @@
                 oscillator.detune.value = 200;
             }
         }
-        
+
         function mousedown(e) {
-           
+
             //oscillator.start();
-            
+
         }
 
         function mouseup(e) {
             //oscillator.stop();
             //oscillator.disconnect();
             fortuneWheel.play();
-            
-        }
 
+        }
     </script>
     <div id="footer">
         Copyright 2013 Sub Protocol and other contributors.
