@@ -1,24 +1,32 @@
-verlet-js
+Working with Verlet-js
 =========
 
-A simple Verlet (pronounced 'ver-ley') physics engine written in javascript.
+This project is meant to give a couple of examples on how Verlet.js is a powerfull library to create interesting and creativ interaction. Verlet can be used in many ways but we chose to look at it as a tool for making flat 2d into something interesting and playfull. In combination with audio library and device orientation simple shapes can become something you physically engage with. 
 
-Particles, distance constraints, and angular constraints are all supported by verlet-js.  From these primitives it is possible to construct just about anything you can imagine.
 
-License
+
+License for Verlet
 -------
 You may use verlet-js under the terms of the MIT License (See [LICENSE](LICENSE)).
 
 
-Examples
+Sketches
 --------
-1. [Shapes (verlet-js Hello world)](http://subprotocol.com/verlet-js/examples/shapes.html)
-2. [Fractal Trees](http://subprotocol.com/verlet-js/examples/tree.html)
-3. [Cloth](http://subprotocol.com/verlet-js/examples/cloth.html)
-4. [Spiderweb](http://subprotocol.com/verlet-js/examples/spiderweb.html)
+
+1. [Josefine](http://subprotocol.com/verlet-js/examples/shapes.html)
+2. [Alison](http://subprotocol.com/verlet-js/examples/tree.html)
+3. [Anna](http://subprotocol.com/verlet-js/examples/cloth.html)
 
 
-Code Layout
+Other sources and helping tutorials
+--------
+1. [Building shapes tutorial](https://www.sitepoint.com/an-introduction-to-verlet-js/)
+2. [Device orientation](https://developers.google.com/web/fundamentals/native-hardware/device-orientation/)
+3. [Web audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
+4. [Volume meter](https://github.com/cwilso/volume-meter/)
+
+
+Code Layout 
 -----------
 1. js/verlet-js/vec2.js: _2d vector implementation_
 2. js/verlet-js/constraint.js: _constraint code_
