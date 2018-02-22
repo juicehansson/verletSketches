@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Alison's sketch</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./../../css/style2.css" type="text/css" media="screen, projection" />
+    <link href='http://fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="./../../js/verlet-1.0.0.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript" src="./../../site/js/common.js"></script>
+    <h1>
+        A first sketch with verlet.js
+    </h1>
+    <h4>On github:</h4>
+    <a href="https://github.com/kruemel0611" target="_blank">kruemel0611</a>
+    
+    <input type="file" accept="audio/*;capture=microphone">
+    <canvas width="900" height="600" id="canvas"></canvas> 
+    
+    
+    
+
+    <script>
+    
+    var world;
+    var fortuneWheel = new Audio("prize-wheel.wav");
+
+    var audioContext = window.AudioContext || window.webkitAudioContext;
+        var audioCtx = new AudioContext();
+        
+        
+        
+        var gainNode = audioCtx.createGain();
+        var oscillator = audioCtx.createOscillator();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        var WIDTH = VerletJS.width;
+        var HEIGHT = VerletJS.height;
+
+        var maxFreq = 3000;
+        var maxVol = 0.02;
+
+        var initialFreq = 500;
+        var initialVol = 0.02;
+
+        oscillator.detune.value = 100;
+
+        gainNode.gain.value = initialVol;
+        oscillator.frequency.value = initialFreq;
+        
+        
+        var CurX;
+        var CurY;
+
+       
+
+        function hasGetUserMedia() {
+            return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia || navigator.msGetUserMedia);
+        }
+
+        if (hasGetUserMedia()) {
+          // Good to go!
+        } else {
+        alert('getUserMedia() is not supported in your browser');
+        }
+        var errorCallback = function(e) {
+        console.log('Reeeejected!', e);
+        };
+        navigator.getUserMedia  = navigator.getUserMedia ||
+                          navigator.webkitGetUserMedia ||
+                          navigator.mozGetUserMedia ||
+                          navigator.msGetUserMedia;
+        // Not showing vendor prefixes.
+        navigator.getUserMedia({video: false, audio: true}, function(localMediaStream) {
+        var audio = document.querySelector('audio');
+        audio.src = window.URL.createObjectURL(localMediaStream);
+
+        // Note: onloadedmetadata doesn't fire in Chrome when using it with getUserMedia.
+        // See crbug.com/110938.
+        audio.onloadedmetadata = function(e) {
+         // Ready to go. Do some stuff.
+        };
+        }, errorCallback);
+        
+        navigator.getUserMedia({video: false, audio: true}, function(sourceInfos) {
+            var audioSource = null;
+            for (var i = 0; i != sourceInfos.length; ++i) {
+            var sourceInfo = sourceInfos[i];
+            if (sourceInfo.kind === 'audio') {
+            console.log(sourceInfo.id, sourceInfo.label || 'microphone');
+
+            audioSource = sourceInfo.id;
+            }
+            }
+            sourceSelected(audioSource, videoSource);
+        }, errorCallback);
+        
+        function sourceSelected(audioSource) {
+            var constraints = {
+            audio: {
+            optional: [{sourceId: audioSource}]
+            }
+            };
+
+            navigator.getUserMedia(constraints, successCallback, errorCallback);
+        }
+
+        
+        function initializeWorld() {
+        world = new VerletJS(900, 600, document.getElementById("canvas")); 
+        //audioCtx = world;
+        var canvas = document.querySelector('.canvas');
+        //var canvasCtx;
+        var wheel = world.tire(new Vec2(450, 300), 100, 30, 1, 1);
+        var pin = wheel.pin(30);
+        // mic input
+        /*mic = new p5.AudioIn();
+        mic.start();
+
+        var vol = mic.getLevel();
+        var h = map(vol, 0, 1, HEIGHT, 0);
+        */
+        //initialising audio
+        
+        /*if (VerletJS.draggedEntity) {
+            oscillator.frequency.value = initialFreq;
+           gainNode.gain.value = initialVol;
+            oscillator.start(0);
+            updatePage();
+        }
+        /*var isMouseDown = false;
+
+        if (canvas.onmousedown && canvas.onmousemove) {
+            oscillator.start(0);
+
+        }
+        canvas.onmousedown = function () {
+        isMouseDown = true;
+        }
+        canvas.onmouseup = function () {
+        isMouseDown = false;
+        }
+        canvas.onmousemove = function() {
+        
+            oscillator.start(0);
+        
+        */
+    
+        }
+    var fps = 32; // the frame rate of the world
+    var _this = this;
+    VerletJS.onmousemove = updatePage;
+    this.canvas.onmousemove = function(e) {
+		var rect = _this.canvas.getBoundingClientRect();
+		this.mouse.x = e.clientX - rect.left;
+		this.mouse.y = e.clientY - rect.top;
+	};  
+    function updatePage(e) {
+        CurFlag = false;
+
+        CurX = (VerletJS.Event) ? e.pageX : event.clientX + (VerletJS.canvas.scrollLeft ? VerletJS.canvas.scrollLeft : document.body.scrollLeft);
+        CurY = (VerletJS.Event) ? e.pageY : event.clientY + (VerletJS.scrollTop ? VerletJS.canvas.scrollTop : document.body.scrollTop);
+        //canvas.oscillator.start(0);
+        oscillator.frequency.value = (CurX/WIDTH) * maxFreq;
+        //oscillator.frequency.value = (CurY/HEIGHT) * maxFreq;
+        //gainNode.gain.value = (CurX/WIDTH) * maxVol;
+        gainNode.gain.value = (CurY/HEIGHT) * maxVol;
+        //canvas.addEventListener("dragstart", function() {
+            //oscillator.start(0);
+        
+    //})
+    }
+    //rendering the world
+    function renderWorld() {
+        world.frame(16);
+        world.draw();
+        setTimeout(renderWorld, 1000 / fps);
+    } 
+    window.addEventListener("load", function() {
+            initializeWorld();
+            renderWorld();
+            //mousemove();
+            
+            
+            
+    });
+    /*this.canvas.onmousedown = function(e) {
+        _this.mouseDown = true;
+       
+		var nearest = _this.nearestEntity();
+		if (nearest) {
+            _this.draggedEntity = nearest;
+            oscillator.start(0);
+		}
+	};
+	
+	this.canvas.onmouseup = function(e) {
+		_this.mouseDown = false;
+		_this.draggedEntity = null;
+	};
+	
+	this.canvas.onmousemove = function(e) {
+		var rect = _this.canvas.getBoundingClientRect();
+		_this.mouse.x = e.clientX - rect.left;
+        _this.mouse.y = e.clientY - rect.top;
+        if ((_this.mouseDown && _this.draggedEntity), true) {
+            oscillator.detune.value = 200;
+        }
+	};  */
+
+    canvas.addEventListener("mousemove", mousemove);
+    canvas.addEventListener("mousedown", mousedown);
+    canvas.addEventListener("mouseup", mouseup);
+    
+        function mousemove(e) {
+        CurX = e.layerX - canvas.offsetLeft;
+        CurY = e.layerY - canvas.offsetTop;
+
+        //for(i=0;i<world.tire.particles;i++) {
+          //  dx = mouseX - world.tire.particles.x;
+          //  dy = mouseY - world.tire.particles.y;
+          //  dist = Math.sqrt((dx*dx) + (dy*dy));
+            //if (world.particles = draggable && dist < world.tire.particles.r) {
+            if ((mousedown && mousemove), true) {    
+                oscillator.frequency.value = initialFreq;
+                gainNode.gain.value = initialVol;
+                oscillator.detune.value = 200;
+                /*let f1 = 440;
+                let f2 = 440 * Math.pow(2, 1/2);
+                let f3 = 440 * Math.pow(2, 2/2);
+
+                oscillator.frequency.setValueAtTime(f1, audioCtx.currentTime + 1);
+                oscillator.frequency.linearRampToValueAtTime(f2, audioCtx.currentTime + 2);
+                oscillator.frequency.setValueAtTime(f2, audioCtx.currentTime + 3);
+                oscillator.frequency.linearRampToValueAtTime(f3, audioCtx.currentTime + 4);*/
+            }
+        }
+    //}
+        function mousedown(e) {
+            //oscillator.connect();
+            oscillator.start();
+            setTimeout(500);
+            //oscillator.stop();
+        }   
+        function mouseup(e) {
+            oscillator.stop();
+            //oscillator.disconnect();
+            
+            //setTimeout(500);
+            fortuneWheel.play();
+            //updatePage();
+        }
+        
+        //if (wheel.draggedEntity()) {
+          //  oscillator.start();
+        //}
+    //});
+
+    //canvas.addEventListener("dragstart", function( )
+    //if (wheel.dragstart) {
+        //oscillator.start();
+    
+
+    </script>
+    <div id="footer">
+            Copyright 2013 Sub Protocol and other contributors.
+            <br/><a href="http://subprotocol.com/">http://subprotocol.com/</a>
+    </div>
+</body>    
+
