@@ -36,41 +36,29 @@
             world = new VerletJS(800, 300, document.getElementById("canvas"));
             //calling the verlet constructor
 
-            var maxX = 180;
-            var maxY = 180;
-            var maxZ = 180;
-
+            //---JOSEFINE---
             function handleOrientation(event) {
                 var x = event.beta; // In degree in the range [-180,180]
                 var y = event.gamma; // In degree in the range [-90,90]
                 var z = event.alpha; // In degree in the range [-90,90]
 
-                if (event.beta < 70 && event.alpha > 200) {
-                    console.log(z)
-                    world.gravity = new Vec2(0.8, 0.0);
+                if (event.beta < 70 && event.alpha > 100) {
+                    //alpha goes from 0-300
+                    console.log(event.alpha)
+                    world.gravity = new Vec2(0.1, 0.3);
+                } else if (event.beta < 70 && event.alpha < 100) {
+                    //alpha goes from 0-140
+                    console.log(event.alpha)
+                    world.gravity = new Vec2(-0.1, 0.3);
                 } else {
+                    //---GRAVITY---
                     world.gravity = new Vec2(0.0, 0.5);
                 }
 
-                // if (event.beta < 70 && event.alpha < 200) {
-                //     console.log(z)
-                //     world.gravity = new Vec2(-0.8, 0.0);
-                // } else {
-                //     world.gravity = new Vec2(0.0, 0.5);
-                // }
-
-
             }
-
 
             window.addEventListener('deviceorientation', handleOrientation);
 
-            //---GRAVITY---
-            world.gravity = new Vec2(0.0, 0.5);
-            //changing the gravity to go down and to the right
-            // the higher the number the stronger the gravity pulls
-            //first number controls gravity to the right
-            //second number controls gravity downwards
 
         }
 
