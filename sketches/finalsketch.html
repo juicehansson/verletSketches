@@ -1,0 +1,91 @@
+!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>MySketch</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./../../css/style.css" type="text/css" media="screen, projection" />
+    <link href='http://fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="./../../js/verlet-1.0.0.js"></script>
+    <style type="text/css" media="screen">
+        canvas, img { display:block; margin:1em auto; border:1px solid black; }
+        canvas { background:url("")
+         }
+      </style>
+</head>
+
+<body>
+    <script type="text/javascript" src="./../../site/js/common.js"></script>
+    <h1>
+       Annas sketch 1
+    </h1>
+    <h4>Author</h4>
+    <a href="https://github.com/Annabjoerk" target="_blank">Anna Björk</a>
+
+    <center>
+        Final sketch 
+        <br>
+        <br>  
+        <br>
+        <br>
+        <a href="https://www.sitepoint.com/an-introduction-to-verlet-js/" target="_blank">Tutorial I used </a>
+    </center>
+
+    <canvas width="700" height="500" id="canvas"></canvas>
+
+    <script type="text/javascript">
+        var world;
+
+        function initializeWorld() {
+            world = new VerletJS(700, 500, document.getElementById("canvas"));
+            //calling the verlet constructor
+
+            //Front wheel
+            var wheel = world.tire(new Vec2(350, 250), 80, 30, 1, 1);
+
+            var pin = wheel.pin(30);
+
+
+            //Flag 1
+            world.cloth(new Vec2(100, 200), 150, 200, 16, 3, 1);
+
+            //Flag 2
+            world.cloth(new Vec2(600, 200), 150, 200, 16, 3, 1);
+
+            //Rope
+
+            var rope = world.lineSegments([
+                new Vec2(450, 200),
+                new Vec2(460, 100),
+                new Vec2(470, 100),
+                new Vec2(480, 100)
+            ], 1);
+            var pin = rope.pin(0);
+
+            //---GRAVITY---
+            world.gravity = new Vec2(0.0, 0.5);
+
+        }
+
+        var fps = 32;
+
+        function renderWorld() {
+            world.frame(16); //performs the physics calculations
+            world.draw(); //draws the particles and constrains
+            setTimeout(renderWorld, 1000 / fps); //how often if calls the rendering
+        }
+
+
+
+        //calling the initializing and the rendering on "load"
+        window.addEventListener("load", function () {
+            initializeWorld();
+            renderWorld();
+        })
+    </script>
+    <div id="footer">
+        Copyright 2013 Sub Protocol and other contributors.
+        <br/>
+        <a href="http://subprotocol.com/">http://subprotocol.com/</a>
+    </div>
+</body>
