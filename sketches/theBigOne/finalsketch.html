@@ -25,11 +25,8 @@
 <body>
     <script type="text/javascript" src="./../../site/js/common.js"></script>
     <h1>
-<<<<<<< HEAD:sketches/theBigOne/finalsketch.html
      Final Demo
-=======
         Annas sketch 1
->>>>>>> ed449a253d270b99aa1113c02e2ab9ee3bf46e3c:sketches/finalsketch.html
     </h1>
     <h4>Authors</h4>
     <a href="https://github.com/Annabjoerk" target="_blank">Anna Björk</a>
@@ -49,29 +46,41 @@
 
     <script type="text/javascript">
         var world;
+
+        //adding an audio file
         var fortuneWheel = new Audio("prize-wheel.wav");
+        
+        //creating Web Audio API audio context
         var audioContext = window.AudioContext || window.webkitAudioContext;
         var audioCtx = new AudioContext();
-        var gainNode = audioCtx.createGain();
-        var oscillator = audioCtx.createOscillator();
-        oscillator.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
 
+        //creating gain in the audio context
+        var gainNode = audioCtx.createGain();
+        //creating an oscillator
+        var oscillator = audioCtx.createOscillator();
+        
+        //connecting the oscillator to the gain node to send the oscillator's volume to the gain node
+        oscillator.connect(gainNode);
+        //connecting the gain Node to the audio output of the computer/device used
+        gainNode.connect(audioCtx.destination);
+        
+        //defining the width + height of the canvas
         var WIDTH = VerletJS.width;
         var HEIGHT = VerletJS.height;
-
+        //setting the max frequency of the oscillator to 3000Hz and the max volume to 0.02;
         var maxFreq = 3000;
         var maxVol = 0.02;
-
+        //setting the initial frequency and volume to 500Hz and 0.02;
         var initialFreq = 500;
         var initialVol = 0.02;
-
+        //detuning the oscillator to make it sound smoother
         oscillator.detune.value = 100;
-
+        //sending the initial volume to the gain node
         gainNode.gain.value = initialVol;
+        //setting the oscillator frequency as the initial frequency
         oscillator.frequency.value = initialFreq;
 
-
+        //variables for the x and y coordinated
         var CurX;
         var CurY;
 
@@ -152,30 +161,28 @@
 
         var fps = 32;
         var _this = this;
+        //mouse moving on the verlet canvas triggers the update page function
         VerletJS.onmousemove = updatePage;
-
+        //getting the position of the mouse in the canvas
         this.canvas.onmousemove = function (e) {
             var rect = _this.canvas.getBoundingClientRect();
             _this.mouse.x = e.clientX - rect.left;
             _this.mouse.y = e.clientY - rect.top;
+        
         };
 
         function updatePage(e) {
+            //checking for cursor movement
             CurFlag = false;
 
             CurX = (VerletJS.Event) ? e.pageX : event.clientX + (VerletJS.canvas.scrollLeft ? VerletJS.canvas.scrollLeft :
                 document.body.scrollLeft);
-            CurY = (VerletJS.Event) ? e.pageY : event.clientY + (VerletJS.scrollTop ? VerletJS.canvas.scrollTop :
+            CurY = (VerletJS.Event) ? e.pageY : event.clientY + (VerletJS.canvas.scrollTop ? VerletJS.canvas.scrollTop :
                 document.body.scrollTop);
-            //canvas.oscillator.start(0);
+            //change frequency and gain on cursor movement
             oscillator.frequency.value = (CurX / WIDTH) * maxFreq;
-            //oscillator.frequency.value = (CurY/HEIGHT) * maxFreq;
-            //gainNode.gain.value = (CurX/WIDTH) * maxVol;
             gainNode.gain.value = (CurY / HEIGHT) * maxVol;
-            //canvas.addEventListener("dragstart", function() {
-            //oscillator.start(0);
-
-            //})
+            
         }
 
         function renderWorld() {
@@ -191,11 +198,12 @@
             initializeWorld();
             renderWorld();
         })
-
+        //event listeners for mouse movement, mouse down and mouse up
         canvas.addEventListener("mousemove", mousemove);
         canvas.addEventListener("mousedown", mousedown);
         canvas.addEventListener("mouseup", mouseup);
-
+        
+        
         function mousemove(e) {
             CurX = e.layerX - canvas.offsetLeft;
             CurY = e.layerY - canvas.offsetTop;
