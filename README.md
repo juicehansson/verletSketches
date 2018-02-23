@@ -8,8 +8,9 @@ This project is meant to give a couple of examples on how Verlet.js is a powerfu
 
 Our demo shows a setting where users can drag and pull on objects. The shapes are also reactive to device orientation. With the help of the functions of Verlet.js you can add behavior to objects which might be very helpful in prototyping. The device orientation is only working on computers who have those sensors.  
 
-All you have to do is to download this code to try it out.
 The files we have changed in this repository is css, demo, sketches, images, index and readme. The other files are from the original code linked above.
+
+All you have to do is to download this code to try it out.
 
 Sketches
 --------
