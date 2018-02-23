@@ -20,11 +20,10 @@ Sketches
 
 Other sources and helping tutorials
 --------
-1. [Original code](https://github.com/subprotocol/verlet-js)
-2. [Building shapes tutorial](https://www.sitepoint.com/an-introduction-to-verlet-js/)
-3. [Device orientation](https://developers.google.com/web/fundamentals/native-hardware/device-orientation/)
-4. [Web audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
-5. [Volume meter](https://github.com/cwilso/volume-meter/)
+1. [Building shapes tutorial](https://www.sitepoint.com/an-introduction-to-verlet-js/)
+2. [Device orientation](https://developers.google.com/web/fundamentals/native-hardware/device-orientation/)
+3. [Web audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
+4. [Volume meter](https://github.com/cwilso/volume-meter/)
 
 
 
