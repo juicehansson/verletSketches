@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -25,23 +25,18 @@
 <body>
     <script type="text/javascript" src="./../../site/js/common.js"></script>
     <h1>
-     Final Demo
-        Annas sketch 1
         Final Demo
-        <!-- Annas sketch 1 -->
+
     </h1>
     <h4>Authors</h4>
     <a href="https://github.com/Annabjoerk" target="_blank">Anna Björk</a>
     <a href="https://github.com/juicehansson" target="_blank">Juicehansson</a>
     <a href="https://github.com/kruemel0611" target="_blank">kruemel0611</a>
+    <br>
+    <a href="./../../index.html">Go back</a>
 
     <center>
         Final sketch
-        <!-- <br>
-        <br>
-        <br>
-        <br>
-        <a href="https://www.sitepoint.com/an-introduction-to-verlet-js/" target="_blank">Tutorial I used </a> -->
     </center>
 
     <canvas width="1200" height="1000" id="canvas"></canvas>
@@ -51,7 +46,7 @@
 
         //adding an audio file
         var fortuneWheel = new Audio("prize-wheel.wav");
-        
+
         //creating Web Audio API audio context
         var audioContext = window.AudioContext || window.webkitAudioContext;
         var audioCtx = new AudioContext();
@@ -60,12 +55,12 @@
         var gainNode = audioCtx.createGain();
         //creating an oscillator
         var oscillator = audioCtx.createOscillator();
-        
+
         //connecting the oscillator to the gain node to send the oscillator's volume to the gain node
         oscillator.connect(gainNode);
         //connecting the gain Node to the audio output of the computer/device used
         gainNode.connect(audioCtx.destination);
-        
+
         //defining the width + height of the canvas
         var WIDTH = VerletJS.width;
         var HEIGHT = VerletJS.height;
@@ -132,20 +127,17 @@
 
             var pin = rope.pin(0);
 
-            //---GRAVITY---
-            //  world.gravity = new Vec2(0.0, 0.5);
-
             //---JOSEFINE---
             function handleOrientation(event) {
                 var x = event.beta; // In degree in the range [-180,180]
                 var y = event.gamma; // In degree in the range [-90,90]
                 var z = event.alpha; // In degree in the range [-90,90]
 
-                if (event.beta < 70 && event.alpha < 200) {
+                if (event.beta < 70 && event.alpha < 300) {
                     //alpha goes from 0-300
                     console.log(event.alpha)
                     world.gravity = new Vec2(0.1, 0.3);
-                } else if (event.beta < 70 && event.alpha > 200) {
+                } else if (event.beta < 70 && event.alpha > 300) {
                     //alpha goes from 0-140
                     console.log(event.alpha)
                     world.gravity = new Vec2(-0.1, 0.3);
@@ -170,7 +162,7 @@
             var rect = _this.canvas.getBoundingClientRect();
             _this.mouse.x = e.clientX - rect.left;
             _this.mouse.y = e.clientY - rect.top;
-        
+
         };
 
         function updatePage(e) {
@@ -184,7 +176,7 @@
             //change frequency and gain on cursor movement
             oscillator.frequency.value = (CurX / WIDTH) * maxFreq;
             gainNode.gain.value = (CurY / HEIGHT) * maxVol;
-            
+
         }
 
         function renderWorld() {
@@ -204,8 +196,8 @@
         canvas.addEventListener("mousemove", mousemove);
         canvas.addEventListener("mousedown", mousedown);
         canvas.addEventListener("mouseup", mouseup);
-        
-        
+
+
         function mousemove(e) {
             CurX = e.layerX - canvas.offsetLeft;
             CurY = e.layerY - canvas.offsetTop;
