@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -13,10 +13,11 @@
             display: block;
             margin: 1em auto;
             border: 1px solid black;
+            background-size: "100% 100%";
         }
 
         canvas {
-            background: url("")
+            background: url("./../../images/final.jpg")
         }
     </style>
 
@@ -25,27 +26,28 @@
 <body>
     <script type="text/javascript" src="./../../site/js/common.js"></script>
     <h1>
-<<<<<<< HEAD:sketches/theBigOne/finalsketch.html
      Final Demo
-=======
-        Annas sketch 1
->>>>>>> ed449a253d270b99aa1113c02e2ab9ee3bf46e3c:sketches/finalsketch.html
     </h1>
     <h4>Authors</h4>
+</li>
+<li>
     <a href="https://github.com/Annabjoerk" target="_blank">Anna Björk</a>
+</li>
+<li>
     <a href="https://github.com/juicehansson" target="_blank">Juicehansson</a>
+</li>
+<li>
     <a href="https://github.com/kruemel0611" target="_blank">kruemel0611</a>
 
     <center>
-        Final sketch
-        <br>
-        <br>
-        <br>
-        <br>
-        <a href="https://www.sitepoint.com/an-introduction-to-verlet-js/" target="_blank">Tutorial I used </a>
+        Final Demo
+        <br> Spinn the wheel
+        <br> Drag the flags and rope
+        <br> Falgs and robe are responsive when tilting device
+        <br> 
     </center>
 
-    <canvas width="1200" height="1000" id="canvas"></canvas>
+    <canvas width="1200" height="700" id="canvas"></canvas>
 
     <script type="text/javascript">
         var world;
@@ -55,14 +57,14 @@
             //calling the verlet constructor
 
             //Spinning wheel
-            var wheel = world.tire(new Vec2(550, 250), 190, 30, 1, 1);
+            var wheel = world.tire(new Vec2(550, 300), 190, 30, 1, 1);
             var pin = wheel.pin(30);
 
             //Flag1
-            world.cloth(new Vec2(150, 200), 150, 200, 16, 3, 1);
+            world.cloth(new Vec2(180, 400), 200, 400, 16, 3, 1);
 
             //Flag2
-            world.cloth(new Vec2(1050, 200), 150, 200, 16, 3, 1);
+            world.cloth(new Vec2(1020, 400), 200, 400, 16, 3, 1);
 
             //Rope
 
