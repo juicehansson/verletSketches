@@ -25,86 +25,69 @@
 
 
     <script>
+        //creating a variable "world"
         var world;
+        //adding an audio file
         var fortuneWheel = new Audio("prize-wheel.wav");
-
+        //creating an audio context
         var audioContext = window.AudioContext || window.webkitAudioContext;
         var audioCtx = new AudioContext();
+        //creating gain in the audio context
         var gainNode = audioCtx.createGain();
+        //creating an oscillator in the audio context
         var oscillator = audioCtx.createOscillator();
+        //connecting the oscillator to the gain node in order to be able to give the audio a volume
         oscillator.connect(gainNode);
+        //connecting the gain node to the audio destination of the device (speakers/headphones)
         gainNode.connect(audioCtx.destination);
-
+        
+        //setting variables for width and height
         var WIDTH = VerletJS.width;
         var HEIGHT = VerletJS.height;
 
+        //setting max frequency, max volume, initial frequency and initial volume
         var maxFreq = 3000;
         var maxVol = 0.02;
 
         var initialFreq = 500;
         var initialVol = 0.02;
 
+        //detuning the oscillator to make the tones smoother
         oscillator.detune.value = 100;
-
+        //setting the gain node value to the initial volume
         gainNode.gain.value = initialVol;
+        //setting the oscillator frequency to the initial frequency
         oscillator.frequency.value = initialFreq;
 
-
+        //variables for the cursor coordinates
         var CurX;
         var CurY;
 
         var mic;
-
+        
+        //setting up the verlet js content
         function initializeWorld() {
+            //creating a new verletjs canvas
             world = new VerletJS(900, 600, document.getElementById("canvas"));
-            //audioCtx = world;
+            //linking this canvas to the html canvas object
             var canvas = document.querySelector('.canvas');
-            //var canvasCtx;
+            //creating a wheel by using the tire shape
             var wheel = world.tire(new Vec2(450, 300), 100, 30, 1, 1);
+            //pinning the last particle of the wheel (middle particle)
             var pin = wheel.pin(30);
-            // mic input
-            /*mic = new p5.AudioIn();
-            mic.start();
-
-            var vol = mic.getLevel();
-            var h = map(vol, 0, 1, HEIGHT, 0);
-            */
-            //initialising audio
-
-            /*if (VerletJS.draggedEntity) {
-                oscillator.frequency.value = initialFreq;
-               gainNode.gain.value = initialVol;
-                oscillator.start(0);
-                updatePage();
-            }
-            /*var isMouseDown = false;
-
-            if (canvas.onmousedown && canvas.onmousemove) {
-                oscillator.start(0);
-
-            }
-            canvas.onmousedown = function () {
-            isMouseDown = true;
-            }
-            canvas.onmouseup = function () {
-            isMouseDown = false;
-            }
-            canvas.onmousemove = function() {
-        
-                oscillator.start(0);
-        
-            */
-
         }
-        var fps = 32; // the frame rate of the world
+        //setting the frame rate of the world to 32 frames per second
+        var fps = 32; 
         var _this = this;
+        //updating the page when the mouse moves
         VerletJS.onmousemove = updatePage;
+
         this.canvas.onmousemove = function (e) {
             var rect = _this.canvas.getBoundingClientRect();
             _this.mouse.x = e.clientX - rect.left;
             _this.mouse.y = e.clientY - rect.top;
         };
-
+        //updating the page according to cursor movement
         function updatePage(e) {
             CurFlag = false;
 
@@ -112,54 +95,26 @@
                 document.body.scrollLeft);
             CurY = (VerletJS.Event) ? e.pageY : event.clientY + (VerletJS.scrollTop ? VerletJS.canvas.scrollTop :
                 document.body.scrollTop);
-            //canvas.oscillator.start(0);
+            //making the oscillator frequency dependent on the cursor position
             oscillator.frequency.value = (CurX / WIDTH) * maxFreq;
-            //oscillator.frequency.value = (CurY/HEIGHT) * maxFreq;
-            //gainNode.gain.value = (CurX/WIDTH) * maxVol;
+           // making the gain value dependent on the cursor position
             gainNode.gain.value = (CurY / HEIGHT) * maxVol;
-            //canvas.addEventListener("dragstart", function() {
-            //oscillator.start(0);
-
-            //})
         }
+
         //rendering the world
         function renderWorld() {
             world.frame(16);
             world.draw();
             setTimeout(renderWorld, 1000 / fps);
         }
+        //whenever the window loads, the world is initialised and rendered
         window.addEventListener("load", function () {
             initializeWorld();
             renderWorld();
-            //mousemove();
-
-
-
+            
         });
-        /*this.canvas.onmousedown = function(e) {
-        _this.mouseDown = true;
-       
-		var nearest = _this.nearestEntity();
-		if (nearest) {
-            _this.draggedEntity = nearest;
-            oscillator.start(0);
-		}
-	};
-	
-	this.canvas.onmouseup = function(e) {
-		_this.mouseDown = false;
-		_this.draggedEntity = null;
-	};
-	
-	this.canvas.onmousemove = function(e) {
-		var rect = _this.canvas.getBoundingClientRect();
-		_this.mouse.x = e.clientX - rect.left;
-        _this.mouse.y = e.clientY - rect.top;
-        if ((_this.mouseDown && _this.draggedEntity), true) {
-            oscillator.detune.value = 200;
-        }
-	};  */
-
+     
+        //eventlisteners for mouse movement, up and down
         canvas.addEventListener("mousemove", mousemove);
         canvas.addEventListener("mousedown", mousedown);
         canvas.addEventListener("mouseup", mouseup);
@@ -167,42 +122,29 @@
         function mousemove(e) {
             CurX = e.layerX - canvas.offsetLeft;
             CurY = e.layerY - canvas.offsetTop;
-
-            //for(i=0;i<world.tire.particles;i++) {
-            //  dx = mouseX - world.tire.particles.x;
-            //  dy = mouseY - world.tire.particles.y;
-            //  dist = Math.sqrt((dx*dx) + (dy*dy));
-            //if (world.particles = draggable && dist < world.tire.particles.r) {
+            //if the mouse is pressed and moved, detune the frequency value of the oscillator.
             if ((mousedown && mousemove), true) {
-                //oscillator.frequency.value = initialFreq;
-                //oscillator.gain.value = initialVol;
                 oscillator.detune.value = 200;
             }
         }
-        //}
+        
         function mousedown(e) {
-            //oscillator.connect();
+            //start the oscillator on mouse down
             oscillator.start();
-            //oscillator.stop();
+            
         }
 
         function mouseup(e) {
+            //stop the oscillator and disconnect it
             oscillator.stop();
             oscillator.disconnect();
 
-            //setTimeout(500);
+            //play the added audio file
             fortuneWheel.play();
-            //updatePage();
+            
         }
 
-        //if (wheel.draggedEntity()) {
-        //  oscillator.start();
-        //}
-        //});
-
-        //canvas.addEventListener("dragstart", function( )
-        //if (wheel.dragstart) {
-        //oscillator.start();
+    
     </script>
     <div id="footer">
         Copyright 2013 Sub Protocol and other contributors.
