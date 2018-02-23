@@ -1,14 +1,14 @@
 Working with Verlet-js
 =========
 
-This project is meant to give a couple of examples on how Verlet.js is a powerfull library to create interesting and creativ interaction. Verlet can be used in many ways but we chose to look at it as a tool for making flat graphics into something interesting and playfull. In combination with audio library and device orientation simple shapes can become something you physically engage with. 
+This project is meant to give a couple of examples on how Verlet.js is a powerful library to create interesting and creative interaction. Verlet can be used in many ways but we chose to look at it as a tool for making flat graphics into something interesting and playful. In combination with audio library and device orientation simple shapes can become something you physically engage with. 
 
 [Verlet.js](https://github.com/subprotocol/verlet-js)
 
 
-Our demo shows a setting where users can drag and pull on objects. The shapes are also reactive to device orientation. With the help of the functions of Verlet.js you can add behavior to object which might be very helpfull in prototyping. The device orientation is only working on computers who have those sencors  
+Our demo shows a setting where users can drag and pull on objects. The shapes are also reactive to device orientation. With the help of the functions of Verlet.js you can add behavior to objects which might be very helpful in prototyping. The device orientation is only working on computers who have those sensors.  
 
-All you have to do is to download the code to try it out.
+All you have to do is to download this code to try it out.
 
 Sketches
 --------
@@ -20,10 +20,11 @@ Sketches
 
 Other sources and helping tutorials
 --------
-1. [Building shapes tutorial](https://www.sitepoint.com/an-introduction-to-verlet-js/)
-2. [Device orientation](https://developers.google.com/web/fundamentals/native-hardware/device-orientation/)
-3. [Web audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
-4. [Volume meter](https://github.com/cwilso/volume-meter/)
+1. [Original code](https://github.com/subprotocol/verlet-js)
+2. [Building shapes tutorial](https://www.sitepoint.com/an-introduction-to-verlet-js/)
+3. [Device orientation](https://developers.google.com/web/fundamentals/native-hardware/device-orientation/)
+4. [Web audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
+5. [Volume meter](https://github.com/cwilso/volume-meter/)
 
 
 
