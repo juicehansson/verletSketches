@@ -36,41 +36,36 @@
     <script type="text/javascript">
         var world;
 
-        var WIDTH = VerletJS.width;
-        var HEIGHT = VerletJS.height;
-
-        var CurX;
-        var CurY;
-
         function initializeWorld() {
-            world = new VerletJS(800, 300, document.getElementById("canvas"));
             //calling the verlet constructor
+            world = new VerletJS(800, 300, document.getElementById("canvas"));
 
-
-            world.cloth(new Vec2(300, 100), 80, 80, 16, 3, 1);
-
+            //create "goal" - where tail should be dropped
             var tri = world.tire(new Vec2(0, 0), 60, 3, 1, 1);
             var pin = tri.pin(3);
 
+            //---Line---
+            // create variable with where the tail should be pinned
+            //wanted to use this to knwo if mousedown happened on the same place (further down in the code)
             var tailX = 400;
             var tailY = 100;
 
-            //---Line---
+            //create the tail
+            //array function that contains position of particles that form a line (add more in array to make more pinpoints)
             var tail = world.lineSegments([
                 new Vec2(tailX, tailY),
                 new Vec2(410, 100),
                 new Vec2(430, 100),
                 new Vec2(450, 100)
             ], 1);
-            //array function that contains position of particles that form a line (add more in array to make more pinpoints)
+
+            //deciding which particle to pin, in this case pin number 0
             var pin = tail.pin(0);
-            // creating a variable called segment made so that I could pin the different pinpoints on the canvas
 
             //---Event listener---
-            //cheat - if mouse down on the point where tail is - do something
-            //I want it to check where the tail is dropped - by checking the tail's coordinates
-            //updating the tails coordinates as I move/release it
-            //comparing the position of the tail-point and where the "goal"
+            //if mousedown happens on the canvas, change color - same with mouseup
+            //point of this was to see if you pull the pinned particle on the tail
+            //and drag it to a designated area, kind of like "pin the tail on the donkey"
 
             document.getElementById('canvas').addEventListener('mousedown', evt => {
                 var x = evt.clientX;
@@ -93,35 +88,26 @@
 
             });
 
+            // function that checks the orientation and changes the gravitational pull
             function handleOrientation(event) {
                 var x = event.beta; // In degree in the range [-180,180]
                 var y = event.gamma; // In degree in the range [-90,90]
                 var z = event.alpha; // In degree in the range [-90,90]
 
-                if (event.beta < 70 && event.alpha > 100) {
-                    //alpha goes from 0-300
+                if (event.beta < 70 && event.alpha > 100) { //check the data from the orientation
                     console.log(event.alpha)
-                    world.gravity = new Vec2(0.1, 0.3);
-                } else if (event.beta < 70 && event.alpha < 100) {
-                    //alpha goes from 0-140
+                    world.gravity = new Vec2(0.1, 0.3); // change gravitational pull
+                } else if (event.beta < 70 && event.alpha < 100) { //check the data from the orientation
                     console.log(event.alpha)
-                    world.gravity = new Vec2(-0.1, 0.3);
+                    world.gravity = new Vec2(-0.1, 0.3); // change gravitational pull
                 } else {
-                    //---GRAVITY---
-                    world.gravity = new Vec2(0.0, 0.5);
+                    world.gravity = new Vec2(0.0, 0.5); // if nothing happens, gravity pulls down
                 }
 
             }
 
-
+            // check if orientation is happening, call function
             window.addEventListener('deviceorientation', handleOrientation);
-
-
-            //changing the gravity to go down and to the right
-            // the higher the number the stronger the gravity pulls
-            //first number controls gravity to the right
-            //second number controls gravity downwards
-
         }
 
         var fps = 32;
